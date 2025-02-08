@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({path: [".env", ".env.production"]});
 
 const http = require("http");
 const app = require("./app");
