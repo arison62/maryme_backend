@@ -1,7 +1,7 @@
 require("dotenv").config({path: [".env", ".env.production"]});
 
 const http = require("http");
-const app = require("./app");
+const app = require("./src/app");
 const {dbConnect, dbDisconnect} = require("./src/configs/db");
 
 dbConnect();

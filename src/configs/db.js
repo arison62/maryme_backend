@@ -19,9 +19,9 @@ if (!isProduction) {
             dialect: "mysql",
         });
 
-
+        console.log("Local DB")
 }else{
-    console.log(process.env.POSTGRE_URI)
+    
     sequelize = new Sequelize(process.env.POSTGRE_URI);
 }
 
