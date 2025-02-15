@@ -12,7 +12,7 @@ function generate_password(length = 7) {
     return result;
 }
 
-function generate_otp(length = 5) {
+function generate_otp(length = 6) {
     let result = '';
 
     const characters = '0123456789';

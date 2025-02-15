@@ -4,7 +4,7 @@ const Utilisateur = require("../models/utilisateur");
 const Token = require("../models/token");
 
 const isValidEmail = require("../utils/email_check");
-const { generate_password, generate_otp } = require("../utils/generate_credentials");
+const { generate_password, generate_otp } = require("../utils/generate_otp");
 const { send_otp } = require("../utils/send_mail");
 const { Op } = require("sequelize");
 const { generate_token } = require("../utils/jwt_utils");
@@ -16,7 +16,9 @@ exports.requestToken = async (req, res) => {
     if (!isValidEmail(email)) {
         return res.status(404).json(
             {
-                error: "INVALID EMAIL"
+                error: "INVALID EMAIL",
+                message: "",
+                data: {}
             }
         );
     } else {
@@ -40,12 +42,14 @@ exports.requestToken = async (req, res) => {
         if(infos == undefined){
             return res.status(500).json({
                 error : "INTERNAL ERROR",
-                description: ""
+                message: "",
+                data: {}
             });
         }else{
             return res.status(200).json({
-                success: true,
-                description: "Token envoye a votre adresse mail"
+                error: false,
+                message: "Token envoye a votre adresse mail",
+                data: {}
             });
         }
     }
@@ -69,21 +73,24 @@ exports.login = async (req, res) => {
     if(token[0] == undefined){
         return res.status(404).json({
             error: "INVALID TOKEN",
-            description: ""
+            message: "",
+            data: {}
         });
     } else if (token[0].date_expiration < Date.now()){
         return res.status(404).json({
             error: "EXPIRED TOKEN",
-            description: ""
+            message: "",
+            data: {}
         });
     } else{
         return res.status(200).json({
-            success: true,
+            error: false,
             data: {
                 token: generate_token({
                     email
                 })
-            }
+            },
+            message: ""
         })
     }
 }
