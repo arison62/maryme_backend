@@ -13,6 +13,7 @@ const { generate_token } = require("../utils/jwt_utils");
 
 exports.requestToken = async (req, res) => {
     const { email } = req.body;
+    console.log(email);
     if (!isValidEmail(email)) {
         return res.status(404).json(
             {
