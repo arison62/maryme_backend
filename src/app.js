@@ -2,16 +2,32 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./routes/utilisateur.route");
 
+const allowedOrigins = [
+    "http://localhost:3000",  // Pour le développement en local
+    "https://maryme.onrender.com" // Pour la production
+  ];
+  
+  const corsOptions = {
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("CORS non autorisé"));
+      }
+    },
+    credentials: true, // Autorise l'envoi des cookies et tokens
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"], // Ajoute les headers nécessaires
+  };
+
+  
+
+
 
 const app = express()
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", req.headers.origin);
-    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    res.header("Access-Control-Allow-Credentials", "true");
-    console.log(req.headers.origin)
-    next();
-});
+  
+app.use(cors(corsOptions));
+
   
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
