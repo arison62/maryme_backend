@@ -2,50 +2,37 @@ const express = require("express");
 const cors = require("cors");
 const userRouter = require("./routes/utilisateur.route");
 
+
 const allowedOrigins = [
-    "http://localhost:3000",  // Pour le développement en local
-    "https://maryme.onrender.com" // Pour la production
+    "http://localhost:3000",  // Dev
+    "https://maryme.onrender.com" // Prod
 ];
 
 const corsOptions = {
     origin: (origin, callback) => {
         if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
+            callback(null, origin); // ✅ Renvoie l'origine au lieu de `true`
         } else {
-            callback(null, false)
+            callback(new Error("CORS non autorisé"));
         }
     },
-    sameSite: "none",
-    credentials: true, // Autorise l'envoi des cookies et tokens
+    credentials: true, // ✅ Important pour les cookies et JWT
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"], // Ajoute les headers nécessaires
+    allowedHeaders: ["Content-Type", "Authorization"], // ✅ Vérifie bien cette casse
 };
-
 
 
 
 
 const app = express()
 app.use(cors(corsOptions));
-
-app.use((req, res, next) => {
-    const origin = req.headers.origin;
-    if (allowedOrigins.includes(origin)) {
-        res.header("Access-Control-Allow-Origin", origin);
-        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-        res.header("Access-Control-Allow-Credentials", "true");
-    }
-
-    if (req.method === "OPTIONS") {
-        return res.status(200).json({ message: "Preflight OK" }); // ✅ Répond avec un JSON et 200
-    }
-
-    next();
+app.options("*", (req, res) => {
+    res.header("Access-Control-Allow-Origin", req.headers.origin);
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    res.sendStatus(200); // ✅ Répond aux requêtes OPTIONS
 });
-
-
-
 
 
 app.use(express.urlencoded({ extended: true }))
