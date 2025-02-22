@@ -88,7 +88,8 @@ exports.login = async (req, res) => {
             error: false,
             data: {
                 token: generate_token({
-                    email
+                    email,
+                    id_utilisateur: token[0].id_utilisateur
                 })
             },
             message: ""

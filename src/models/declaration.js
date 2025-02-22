@@ -38,6 +38,11 @@ Declaration.init({
 
     date_declaration: {
         type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+    date_celebration: {
+        type: DataTypes.DATE,
         allowNull: false
     },
     id_celebrant: {
