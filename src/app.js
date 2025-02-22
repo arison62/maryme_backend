@@ -15,6 +15,7 @@ const corsOptions = {
             callback(null, false)
         }
     },
+    sameSite: "none",
     credentials: true, // Autorise l'envoi des cookies et tokens
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"], // Ajoute les headers nécessaires
@@ -25,26 +26,26 @@ const corsOptions = {
 
 
 const app = express()
+app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
     const origin = req.headers.origin;
     if (allowedOrigins.includes(origin)) {
-      res.header("Access-Control-Allow-Origin", origin);
-      res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-      res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-      res.header("Access-Control-Allow-Credentials", "true");
+        res.header("Access-Control-Allow-Origin", origin);
+        res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        res.header("Access-Control-Allow-Credentials", "true");
     }
-  
+
     if (req.method === "OPTIONS") {
-      return res.status(200).json({ message: "Preflight OK" }); // ✅ Répond avec un JSON et 200
+        return res.status(200).json({ message: "Preflight OK" }); // ✅ Répond avec un JSON et 200
     }
-  
+
     next();
-  });
-  
+});
 
 
-app.use(cors(corsOptions));
+
 
 
 app.use(express.urlencoded({ extended: true }))
