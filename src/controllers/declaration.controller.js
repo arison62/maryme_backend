@@ -4,6 +4,8 @@ const Temoin = require("../models/temoin");
 const DeclarationTemoin = require("../models/declaration_temoin");
 const Epouse = require("../models/epouse");
 const Epoux = require("../models/epoux");
+const {sequelize} = require("../configs/db");
+const { transporter } = require("../configs/mail");
 
 /**
  * 
@@ -45,10 +47,11 @@ const Epoux = require("../models/epoux");
 exports.createDeclaration = async (req, res) => {
     const { celebrant, temoins, id_commune, date_celebration, epoux, epouse } = req.body;
     const { id_utilisateur } = req.auth;
+    const t = await sequelize.transaction();
     try {
-        const createdCelebrant = await Celebrant.create({ ...celebrant });
-        const createdEpouse = await Epouse.create({ ...epouse });
-        const createdEpoux = await Epoux.create({ ...epoux });
+        const createdCelebrant = await Celebrant.create({ ...celebrant }, {transaction: t});
+        const createdEpouse = await Epouse.create({ ...epouse }, {transaction: t});
+        const createdEpoux = await Epoux.create({ ...epoux }, {transaction: t});
 
         const declaration = await Declaration.create({
             id_utilisateur: id_utilisateur,
@@ -57,19 +60,24 @@ exports.createDeclaration = async (req, res) => {
             id_celebrant: createdCelebrant.id_celebrant,
             id_epoux: createdEpoux.id_epoux,
             id_epouse: createdEpouse.id_epouse
-        });
+        }, {transaction: t});
 
         for (let temoinData of temoins) {
         
-            let temoin = await Temoin.create({ ...temoinData });
-            await declaration.addTemoin(temoin);
+            let temoin = await Temoin.create({ ...temoinData },{transaction: t});
+            await declaration.addTemoin(temoin, {transaction: t});
         }
+
+        t.commit();
+
         return res.status(500).json({
             error: false,
             message: "Declaration cree avec succes",
             data: { id_declaration: declaration.id_declaration }
         })
+      
     } catch (error) {
+        t.rollack();
         console.log(error)
         return res.json({
             error: true,
