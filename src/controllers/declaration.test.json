@@ -1,0 +1,36 @@
+{
+    "id_utilisateur": 1,
+    "date_celebration": "2022-12-12 00:00:00",
+    "date_declaration": "2022-12-12 00:00:00",
+    "id_commune": 1,
+    "celebrant": {
+        "nom": "KOUASSI",
+        "prenom": "KOUAKOU",
+        "date_naissance": "1990-12-12",
+        "telephone": "0123456789"
+    },
+    "epouse": {
+        "nom": "KOUASSI",
+        "prenom": "KOUAKOU",
+        "date_naissance": "1990-12-12",
+        "telephone": "0123456789"
+    },
+    "epoux": {
+        "nom": "KOUASSI",
+        "prenom": "KOUAKOU",
+        "date_naissance": "1990-12-12",
+        "telephone": "0123456789"
+    },
+    "temoins": [{
+        "nom": "KOUASSI",
+        "prenom": "KOUAKOU",
+        "date_naissance": "1990-12-12",
+        "telephone": "0123456789"
+    }, {
+        "nom": "KOUASSI",
+        "prenom": "KOUAKOU",
+        "date_naissance": "1990-12-12",
+        "telephone": "0123456789"
+    }]
+    
+}

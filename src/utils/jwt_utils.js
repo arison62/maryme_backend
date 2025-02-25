@@ -14,7 +14,7 @@ exports.generate_token = (data)=>{
 exports.verify_token = (token)=>{
     try{
         let decoded = jwt.verify(token, SECRET_KEY);
-        return {decoded}
+        return {decoded, error: false}
     } catch(err){
         if(err.name == "TokenExpiredError"){
             return {error: true, message: "TOKEN EXPIRED"}

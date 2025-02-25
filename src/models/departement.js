@@ -1,6 +1,6 @@
 const {sequelize} = require("../configs/db");
 const {DataTypes, Model} = require("sequelize");
-const Ville = require("./ville");
+const Region = require("./region");
 
 class Departement extends Model {}
 Departement.init({
@@ -14,12 +14,12 @@ Departement.init({
         type: DataTypes.STRING,
         allowNull: false
     },
-    id_ville: {
+    id_Region: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: Ville,
-            key: "id_ville"
+            model: Region,
+            key: "id_Region"
         }
     }
 }, {
@@ -29,8 +29,8 @@ Departement.init({
     timestamps: true
 });
 
-Departement.Ville = Departement.belongsTo(Ville, {foreignKey: "id_ville"});
-Ville.Departement = Ville.hasMany(Departement, {foreignKey: "id_ville"});
+Departement.Region = Departement.belongsTo(Region, {foreignKey: "id_Region"});
+Region.Departement = Region.hasMany(Departement, {foreignKey: "id_Region"});
 
 (async () => {
     await Departement.sync();

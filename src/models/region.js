@@ -1,9 +1,9 @@
 const {sequelize} = require("../configs/db");
 const {DataTypes, Model, } = require("sequelize");
 
-class Ville extends Model{}
-Ville.init({
-    id_ville: {
+class Region extends Model{}
+Region.init({
+    id_Region: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,
@@ -15,13 +15,13 @@ Ville.init({
     }
 }, {
     sequelize,
-    modelName: "Ville",
-    tableName: "Villes",
+    modelName: "Region",
+    tableName: "Regions",
     timestamps: true
 });
 
 (async () => {
-    await Ville.sync();
+    await Region.sync();
 })();
 
-module.exports = Ville
+module.exports = Region

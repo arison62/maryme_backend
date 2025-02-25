@@ -87,9 +87,9 @@ Declaration.init({
 Declaration.Utilisateur = Declaration.belongsTo(Utilisateur, {foreignKey: "id_utilisateur"});
 Utilisateur.Declaration = Utilisateur.hasMany(Declaration, {foreignKey: "id_utilisateur"});
 Declaration.Celebrant = Declaration.belongsTo(Celebrant, {foreignKey: "id_celebrant"});
-Celebrant.Declaration = Celebrant.hasMany(Declaration, {foreignKey: "id_celebrant"});
+Celebrant.Declaration = Celebrant.hasOne(Declaration, {foreignKey: "id_celebrant"});
 Declaration.Epoux = Declaration.belongsTo(Epoux, {foreignKey: "id_epoux"});
-Epoux.Declaration = Epoux.hasMany(Declaration, {foreignKey: "id_epoux"});
+Epoux.Declaration = Epoux.hasOne(Declaration, {foreignKey: "id_epoux"});
 Declaration.Epouse = Declaration.belongsTo(Epouse, {foreignKey: "id_epouse"});
 Epouse.Declaration = Epouse.hasOne(Declaration, {foreignKey: "id_epouse"});
 Declaration.Commune = Declaration.belongsTo(Commune, {foreignKey: "id_commune"});
@@ -97,6 +97,7 @@ Commune.Declaration = Commune.hasMany(Declaration, {foreignKey: "id_commune"});
 
 (async () => {
     await Declaration.sync();
+
 })();
 
 module.exports = Declaration

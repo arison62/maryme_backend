@@ -1,10 +1,10 @@
-const {sequelize} = require("../configs/db");
-const {DataTypes, Model} = require("sequelize");
+const { sequelize } = require("../configs/db");
+const { DataTypes, Model } = require("sequelize");
 
-class Temoin extends Model{}
+class Temoin extends Model { }
 
 Temoin.init({
-    id_celebrant: {
+    id_temoin: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -17,18 +17,18 @@ Temoin.init({
     prenom: {
         type: DataTypes.STRING
     },
-    date_naissance : {
+    date_naissance: {
         type: DataTypes.DATE
     },
     telephone: {
         type: DataTypes.STRING
     }
-},{
+}, {
     sequelize,
-    tableName: "Temoins",
     modelName: "Temoin",
+    tableName: "Temoins",
     timestamps: true
-})
+});
 
 (async () => {
     await Temoin.sync();

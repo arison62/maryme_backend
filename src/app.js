@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const userRouter = require("./routes/utilisateur.route");
+const declarationRouter = require("./routes/declaration.route");
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use((req, res, next) => {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use("/user/auth", userRouter);
+app.use("/declaration", declarationRouter);
 
 module.exports = app;
