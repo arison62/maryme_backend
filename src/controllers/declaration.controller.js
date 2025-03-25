@@ -5,7 +5,6 @@ const DeclarationTemoin = require("../models/declaration_temoin");
 const Epouse = require("../models/epouse");
 const Epoux = require("../models/epoux");
 const {sequelize} = require("../configs/db");
-const { transporter } = require("../configs/mail");
 
 /**
  * 
@@ -49,6 +48,7 @@ exports.createDeclaration = async (req, res) => {
     const { id_utilisateur } = req.auth;
     const t = await sequelize.transaction();
     try {
+        console.log(req.body);
         const createdCelebrant = await Celebrant.create({ ...celebrant }, {transaction: t});
         const createdEpouse = await Epouse.create({ ...epouse }, {transaction: t});
         const createdEpoux = await Epoux.create({ ...epoux }, {transaction: t});
@@ -70,15 +70,16 @@ exports.createDeclaration = async (req, res) => {
 
         t.commit();
 
-        return res.status(500).json({
+        return res.status(200).json({
             error: false,
             message: "Declaration cree avec succes",
-            data: { id_declaration: declaration.id_declaration }
+            data: { id: declaration.id_declaration }
         })
       
     } catch (error) {
-        t.rollack();
         console.log(error)
+        t.rollack();
+       
         return res.json({
             error: true,
             message: "Erreur lors de la creation de la declaration",

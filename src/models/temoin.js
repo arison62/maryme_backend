@@ -15,13 +15,12 @@ Temoin.init({
         allowNull: false
     },
     prenom: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+
     },
-    date_naissance: {
-        type: DataTypes.DATE
-    },
+  
     telephone: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
     }
 }, {
     sequelize,

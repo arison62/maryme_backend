@@ -17,9 +17,6 @@ Celebrant.init({
     prenom: {
         type: DataTypes.STRING
     },
-    date_naissance : {
-        type: DataTypes.DATE
-    },
     telephone: {
         type: DataTypes.STRING
     }

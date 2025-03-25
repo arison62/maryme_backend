@@ -3,7 +3,7 @@ const {DataTypes, Model, } = require("sequelize");
 
 class Region extends Model{}
 Region.init({
-    id_Region: {
+    id_region: {
         type: DataTypes.INTEGER,
         allowNull: false,
         primaryKey: true,

@@ -10,18 +10,19 @@ Departement.init({
         primaryKey: true,
         autoIncrement: true
     },
-    nom: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    id_Region: {
+    id_region: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
             model: Region,
-            key: "id_Region"
+            key: "id_region"
         }
-    }
+    },
+    nom: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+  
 }, {
     sequelize,
     modelName: "Departement",
@@ -29,8 +30,8 @@ Departement.init({
     timestamps: true
 });
 
-Departement.Region = Departement.belongsTo(Region, {foreignKey: "id_Region"});
-Region.Departement = Region.hasMany(Departement, {foreignKey: "id_Region"});
+Departement.Region = Departement.belongsTo(Region, {foreignKey: "id_region"});
+Region.Departement = Region.hasMany(Departement, {foreignKey: "id_region"});
 
 (async () => {
     await Departement.sync();
