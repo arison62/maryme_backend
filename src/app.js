@@ -3,6 +3,7 @@ const cors = require("cors");
 const userRouter = require("./routes/utilisateur.route");
 const declarationRouter = require("./routes/declaration.route");
 const regionRouter = require("./routes/region.route");
+const communeRouter = require("./routes/commune.route");
 const app = express();
 
 // Configuration détaillée des options CORS
@@ -32,6 +33,7 @@ app.use("/user/auth", userRouter);
 app.use("/declaration", declarationRouter);
 
 app.use(regionRouter);
+app.use(communeRouter);
 
 
 module.exports = app;

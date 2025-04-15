@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 function generate_password(length = 7) {
     let result = '';
 
@@ -23,5 +25,15 @@ function generate_otp(length = 6) {
     return result;
 }
 
-module.exports = { generate_password, generate_otp };
+const hash_password = (password) => {
+    const salt = bcrypt.genSaltSync(10);
+    return bcrypt.hashSync(password, salt);
+}
+
+const compare_password = (password, hash) => {
+    return bcrypt.compareSync(password, hash);
+}
+
+
+module.exports = { generate_password, generate_otp, hash_password, compare_password };
 

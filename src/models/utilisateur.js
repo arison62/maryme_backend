@@ -20,7 +20,15 @@ Utilisateur.init({
     password: {
         type: DataTypes.STRING,
         allowNull: false
-    }
+    },
+    est_admin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
+    est_valide: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
+    },
 }, {
     sequelize,
     modelName: "Utilisateur",
