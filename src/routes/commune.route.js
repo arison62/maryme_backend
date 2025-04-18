@@ -4,4 +4,4 @@ const { utilisateurAuth } = require('../middlewares/utilisateurAuth.middleware')
 const router = Router();
 
 router.post('commune/create', utilisateurAuth, createCommune);
-exports.router = router;
+ module.exports = router;

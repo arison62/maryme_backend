@@ -8,6 +8,7 @@ const {
     generate_password,
     generate_otp,
     hash_password,
+    compare_password,
 } = require("../utils/generate_otp");
 const { send_otp } = require("../utils/send_mail");
 const { Op } = require("sequelize");
@@ -103,11 +104,12 @@ exports.login = async (req, res) => {
 };
 
 exports.createAdmin = async (req, res) => {
+    console.log(req.body)
     try {
-        const { email, password, telephone } = req.body;
-        if (email == undefined || password == undefined || telephone == undefined) {
+        const { email, password, phone } = req.body;
+        if (email == undefined || password == undefined || phone == undefined) {
             return res.status(404).json({
-                error: "EMAIL, PASSWORD OR TELEPHONE NOT FOUND",
+                error: "EMAIL, PASSWORD OR phone NOT FOUND",
                 message: "",
                 data: {},
             });
@@ -135,7 +137,7 @@ exports.createAdmin = async (req, res) => {
             },
             defaults: {
                 password: hash_password(password),
-                telephone: telephone,
+                telephone: phone,
                 est_admin: true,
                 est_valide: est_valide,
             },
@@ -235,18 +237,38 @@ exports.validateAdmin = async (req, res) => {
 
 exports.loginAdmin = async (req, res)=>{
     const {email, password} = req.body;
+    if(email == undefined || password == undefined){
+        return res.status(404).json({
+            error: "EMAIL OR PASSWORD NOT FOUND",
+            message: "",
+            data: {},
+        });
+    }
+    if(!isValidEmail(email)){
+        return res.status(404).json({
+            error: "INVALID EMAIL",
+            message: "",
+            data: {},
+        });
+    }
    try{
 
     const user = await Utilisateur.findOne({
         where: {
             email: email,
-            password: password,
         }
     });
 
     if(user == undefined){
         return res.status(404).json({
             error: "USER NOT FOUND",
+            message: "",
+            data: {},
+        });
+    }
+    if(compare_password(password, user.password) == false){
+        return res.status(404).json({
+            error: "INVALID PASSWORD",
             message: "",
             data: {},
         });
@@ -279,6 +301,7 @@ exports.loginAdmin = async (req, res)=>{
     });
 
    }catch(e){
+        console.log(e)
         return res.status(500).json({
             error: true,
             message: e.message,
