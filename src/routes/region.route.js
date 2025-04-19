@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const {getAllRegions, getDepartmentsByRegion, getCommunesByDepartment, getAllDepartements} = require('../controllers/region.controller');
-const {utilisateurAuth} = require('../middlewares/utilisateurAuth.middleware');
+const {authMiddleware} = require('../middlewares/auth.middleware');
 
 const router = Router();
 router.get('/regions',getAllRegions);

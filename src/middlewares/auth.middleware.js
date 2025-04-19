@@ -1,6 +1,6 @@
 const {verify_token} = require("../utils/jwt_utils");
 
-exports.utilisateurAuth = async (req, res, next) => {
+exports.authMiddleware = async (req, res, next) => {
     const authorization = req.headers.authorization;
     
     if(!authorization){

@@ -1,8 +1,8 @@
 const { Router } = require("express");
-const { utilisateurAuth } = require("../middlewares/utilisateurAuth.middleware");
+const {authMiddleware} = require("../middlewares/auth.middleware");
 const { createDeclaration } = require("../controllers/declaration.controller");
 
 const router = Router();
-router.post('/create', utilisateurAuth, createDeclaration);
+router.post('/create', authMiddleware, createDeclaration);
 
 module.exports = router;
