@@ -2,6 +2,7 @@ const Commune = require("../models/commune");
 
 
 exports.createCommune = async (req, res) => {
+    console.log(req.body)
     const { nom, id_departement } = req.body;
     try {
         const commune = await Commune.create({

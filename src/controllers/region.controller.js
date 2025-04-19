@@ -30,6 +30,23 @@ exports.getAllRegions = async (req, res) => {
    
 }
 
+exports.getAllDepartements = async (req, res) => {
+    try {
+        const departements = await Departement.findAll();
+        return res.status(200).json({
+            error: false,
+            message: "",
+            data: departements
+        });
+    } catch (error) {
+        return res.status(500).json({
+            error: true,
+            message: error.message,
+            data: {}
+        });
+    }
+}
+
 /**
  * get all departments in a region
  */

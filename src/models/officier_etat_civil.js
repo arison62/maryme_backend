@@ -26,6 +26,10 @@ OfficiersEtatCivil.init({
         type: DataTypes.STRING,
         allowNull: false
     },
+    mot_de_passe: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
     id_commune: {
         type: DataTypes.INTEGER,
         allowNull: false,
