@@ -1,4 +1,3 @@
-const { text } = require("express");
 const { transporter } = require("../configs/mail");
 
 

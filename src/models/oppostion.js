@@ -19,6 +19,11 @@ Oppostion.init({
             key: "id_declaration"
         }
     },
+    date_oppostion: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW
+    },
     motif: {
         type: DataTypes.STRING,
         allowNull: false
