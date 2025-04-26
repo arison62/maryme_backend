@@ -13,6 +13,7 @@ const TraitementDeclaration = require("../models/traitement_declaration");
 const PublicationDeclaration = require("../models/publication_declaration");
 const { sendDeclarationEmail, sendReminderEmail, sendMessageEmail } = require("../utils/send_mail_declaration");
 const Message = require("../models/message");
+const { or } = require("sequelize");
 
 /**
  * 
@@ -527,4 +528,81 @@ exports.getDeclarationMessages = async (req, res) => {
             data: {}
         })
     }
+}
+
+exports.getDeclarationsPublished = async (req, res) => {
+  try{
+    const declarations = await PublicationDeclaration.findAll({
+        include: [
+            {
+             
+                model: Declaration,
+                include: [
+                  {
+                    model: Commune,
+                    attributes: ["nom", "id_commune"],
+                  },
+                  {
+                    model: Celebrant,
+          
+                    attributes: ["nom", "prenom", "telephone"],
+                  },
+                  {
+                    model: Epoux,
+                    attributes: ["nom", "prenom", "telephone"],
+                  },
+                  {
+                    model: Epouse,
+                    attributes: ["nom", "prenom", "telephone"],
+                  },
+                  {
+                    model: Temoin,
+                    through: DeclarationTemoin,
+                    attributes: ["nom", "prenom", "telephone"],
+                  },
+                  {
+                    model: Oppostion,
+                    attributes: ["motif", "date_oppostion"],
+                  },
+                  {
+                    model: Utilisateur,
+                    attributes: ["email", "telephone"],
+                  },
+                
+                ],
+                order: [["createdAt", "DESC"]],
+            }
+        ],
+      
+    });
+    const formattedDeclarations = declarations.map(declaration => {
+      const plainDeclaration = declaration.get({ plain: true });
+      return {
+        ...plainDeclaration,
+        ...plainDeclaration.Declaration,
+        Declaration: undefined // Supprimer l'objet Declaration imbriqué
+      };
+    });
+
+    if(!declarations || declarations.length === 0){
+        return res.status(404).json({
+            error: true,
+            message: "Pas de declarations publiees",
+            data: {}
+        });
+    }
+    return res.status(200).json({
+        error: false,
+        message: "Declarations publiees recuperes",
+        data: formattedDeclarations
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: true,
+      message: "Erreur lors de la recuperation des declarations publiees",
+      data: {},
+    });
+  }
 }
